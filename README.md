@@ -15,26 +15,22 @@ Grafana los visualiza y permite hacer queries
 
 Todo corre en Docker en mi máquina Windows, y la VM Kali Linux está en VirtualBox conectada por red host-only.
 
-🏗️ Arquitectura
-┌──────────────────────────┐         ┌─────────────────────────────────┐
-│   KALI LINUX VM          │         │   WINDOWS HOST (Docker)         │
-│   192.168.56.20          │         │   192.168.56.1                  │
-│                          │         │                                 │
-│  ┌──────────────────┐    │         │  ┌───────────────────────────┐  │
-│  │  Promtail 3.0.0  │────┼────────►│  │  Loki 3.0.0  :3100        │  │
-│  │  lee journald    │    │  push   │  │  almacena los logs        │  │
-│  └──────────────────┘    │         │  └─────────────┬─────────────┘  │
-│                          │         │                │                │
-│  Captura:                │         │  ┌─────────────▼─────────────┐  │
-│  • comandos sudo         │         │  │  Grafana 12.4.1  :3000    │  │
-│  • intentos SSH          │         │  │  dashboards y queries     │  │
-│  • eventos systemd       │         │  └───────────────────────────┘  │
-│  • todo el journal       │         │                                 │
-└──────────────────────────┘         │  ┌───────────────────────────┐  │
-                                     │  │  Promtail (Windows)       │  │
-                                     │  │  logs de contenedores     │  │
-                                     │  └───────────────────────────┘  │
-                                     └─────────────────────────────────┘
+
+## 🏗️ Arquitectura
+
+​```
+KALI VM (192.168.56.20)          WINDOWS HOST (192.168.56.1)
+┌─────────────────────┐          ┌──────────────────────────┐
+│ Promtail 3.0.0      │──logs──► │ Loki 3.0.0      :3100    │
+│ fuente: journald    │          │ Grafana 12.4.1   :3000    │
+│                     │          │ Promtail Windows          │
+│ Captura:            │          │ (logs de Docker)          │
+│ • sudo, SSH         │          └──────────────────────────┘
+│ • systemd, journal  │
+└─────────────────────┘
+
+Red: VirtualBox host-only 192.168.56.0/24
+​```
 Red: Adaptador host-only de VirtualBox (192.168.56.0/24)
 
 🧰 Qué usé
