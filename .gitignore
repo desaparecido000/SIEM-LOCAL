@@ -1,0 +1,28 @@
+# Docker
+.DS_Store
+**/Dockerfile
+**/docker-compose.yml
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+**/logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# IDE configurations
+.idea/
+*.sublime-workspace
+*.sublime-project
+.vscode/
+
+# Sensitive data
+secrets.yaml
